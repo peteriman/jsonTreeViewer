@@ -438,6 +438,8 @@ var jsonTree = (function() {
             throw new Error('This is abstract class');
         }
         
+        var showMoreSymbol = (Array.isArray(val)) ? "Array( " + val.length + " )" : "Object"; // &hellip;
+        
         var self = this,
             el = document.createElement('li'),
             template = function(label, sym) {
@@ -446,7 +448,7 @@ var jsonTree = (function() {
                         <div class="jsontree_value-wrapper">\
                             <div class="jsontree_value jsontree_value_' + self.type + '">\
                                 <b>' + sym[0] + '</b>\
-                                <span class="jsontree_show-more">&hellip;</span>\
+                                <span class="jsontree_show-more">' + showMoreSymbol + '</span>\
                                 <ul class="jsontree_child-nodes"></ul>\
                                 <b>' + sym[1] + '</b>' +
                             '</div>' + comma +
@@ -742,7 +744,7 @@ var jsonTree = (function() {
          */
         expand : function(filterFunc) {
             if (this.rootNode.isComplex) {
-                if (typeof filterFunc == 'function') {
+                if (typeof filterFunc === 'function') {
                     this.rootNode.childNodes.forEach(function(item, i) {
                         if (item.isComplex && filterFunc(item)) {
                             item.expand();
